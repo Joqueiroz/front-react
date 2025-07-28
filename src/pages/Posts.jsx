@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../axios/api';
+import sheets from '../axios/api';
 import CardPost from '../components/CardPost';
 import Header from '../components/Header';
 
@@ -19,19 +19,12 @@ function Posts() {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await api.get('/posts');
-        setPosts(response.data);
-      } catch (err) {
-        setError('Erro ao carregar posts.');
-        console.log(err);
-      } 
-    };
+    sheets.posts()
+    .then(response => setPosts(response.data))
+    .catch(error=> console.error("Erro ao buscar posts:", error))
 
-    fetchPosts();
-  }, []);
-
+  }, {});
+   
   return (
     <div>
       <Header />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
-import api from '../axios/api';
+import sheets from '../axios/api';
 import CardTodo from '../components/CardTodo';
 import Header from '../components/Header';
 
@@ -19,18 +19,10 @@ function Todos() {
   };
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await api.get('/todos');
-        setTodos(response.data);
-      } catch (err) {
-        setError('Erro ao carregar tarefas.');
-        console.log(err);
-      } 
-    };
-
-    fetchTodos();
-  }, []);
+    sheets.todos()
+    .then(response => setTodos(response.data))
+    .catch(error=> console.error("Erro ao buscar posts:", error))
+      }, {});
 
   return (
     <div>

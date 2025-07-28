@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../axios/api';
+import sheets from '../axios/api';
 import CardUser from '../components/CardUser';
 import Header from '../components/Header';
 
@@ -18,18 +18,11 @@ function Users() {
     gap: '20px',
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await api.get('/users');
-        setUsers(response.data);
-      } catch (err) {
-        setError('Erro ao carregar usuários.');
-        console.log(err);
-      }}
-
-    fetchUsers();
-  }, []);
+   useEffect(() => {
+    sheets.users()
+    .then(response => setUsers(response.data))
+    .catch(error=> console.error("Erro ao buscar posts:", error))
+      }, {});
 
   return (
     <div>
